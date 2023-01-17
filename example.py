@@ -12,10 +12,8 @@ class Field:  # батько для Name, Phone
 class Name(Field):  # наслідується від FIeld і має вже поле value
     pass
 
-
 class Phone(Field):  # наслідується від FIeld і має вже поле value
     pass
-
 
 class Record:
     def __init__(self, name: Name, phone: Phone = None):
@@ -40,8 +38,8 @@ class Record:
 
     def __repr__(self) -> str:
         return f'User {self.name} - Phones: {", ".join([phone.value for phone in self.phones])}'
-
-
+    
+  
 class AddressBook(UserDict):
     def add_record(self, record: Record) -> None:
         self.data[record.name.value] = record
@@ -98,7 +96,7 @@ def exiting():
 
 
 def unknown(*args):
-    print ("Command not exist.")
+    print ("Command not exist")
 
 
 @input_error
@@ -108,18 +106,15 @@ def change(*args):
         old_phone = Phone(args[1])
         new_phone = Phone(args[2])
         return rec.edit_phone(old_phone, new_phone)
-    # for value in PHONE_VOCABULAR:
-    #     value = Record.edit_phone(self=Phone, phone= Phone, new_phone= Phone)
-    #     value += f"\n{PHONE_VOCABULAR[value]}"
     return f"Contact with name {args[0]} not in AddressBook"
 
 
 @input_error
 def show_phone(*args):
-    result = "List of all phones"
-    for value in PHONE_VOCABULAR:
-        result += f"\n{PHONE_VOCABULAR[value]}"
-    return result
+    rec = PHONE_VOCABULAR.get(args[0])
+    if rec:
+        return rec
+    return f"Contact with name {args[0]} is not in the phone book"
 
 
 COMMANDS = {
@@ -154,6 +149,9 @@ def main():
 
 
 if __name__ == "__main__":
+    p1 = Phone('12345')
+    p2 = Phone('12345')
+    print(p1.value == p2.value)
     name = Name("Bill")
     phone = Phone("1234567890")
     rec = Record(name, phone)
